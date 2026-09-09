@@ -1,0 +1,2010 @@
+<!doctype html>
+<html lang="en" class="dark-theme">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BizBabu — Your Bahi-Khata, Digitised</title>
+    <meta
+      name="description"
+      content="BizBabu is a free, ad-free digital ledger, billing and inventory app built for India's Kirana stores. Track Udhaar, scan barcodes, and never run out of stock again."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2300897B'/%3E%3Crect x='14' y='12' width='36' height='40' rx='3' fill='%23FFFFFF'/%3E%3Cline x1='22' y1='20' x2='44' y2='20' stroke='%230B2545' stroke-width='2'/%3E%3Cline x1='22' y1='28' x2='44' y2='28' stroke='%230B2545' stroke-width='2'/%3E%3Cline x1='22' y1='36' x2='38' y2='36' stroke='%230B2545' stroke-width='2'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Upgraded typography: Inter for clean UI, Domine for elegant serif contrast, JetBrains Mono for technical data, Caveat for hand-written notes -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* Brand Colors */
+        --brand-teal: #00897b;
+        --brand-teal-glow: rgba(0, 137, 123, 0.4);
+        --brand-teal-light: #4db6ac;
+
+        /* Backgrounds */
+        --bg-base: #050a0f;
+        --bg-mesh-1: rgba(0, 137, 123, 0.15);
+        --bg-mesh-2: rgba(11, 37, 69, 0.3);
+
+        /* Glass Tokens */
+        --glass-bg-heavy: rgba(11, 20, 31, 0.6);
+        --glass-bg-medium: rgba(16, 28, 44, 0.4);
+        --glass-bg-light: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --glass-border-highlight: rgba(255, 255, 255, 0.15);
+        --glass-blur: blur(24px);
+        --glass-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.5);
+        --glass-inner-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+
+        /* Text */
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --text-tertiary: #64748b;
+
+        /* Layout */
+        --radius-sm: 8px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+        --radius-xl: 32px;
+        --max-w: 1200px;
+
+        /* Motion */
+        --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        --transition-slow: 0.8s var(--ease-out-expo);
+        --transition-med: 0.4s var(--ease-out-expo);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      body {
+        margin: 0;
+        background-color: var(--bg-base);
+        color: var(--text-primary);
+        font-family: "Inter", sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+
+      /* Animated Ambient Background */
+      .ambient-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        overflow: hidden;
+        background: var(--bg-base);
+      }
+      .ambient-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.6;
+        animation: float 20s infinite ease-in-out alternate;
+        transform: translateZ(0);
+      }
+      .orb-1 {
+        width: 600px;
+        height: 600px;
+        background: var(--bg-mesh-1);
+        top: -100px;
+        right: -100px;
+      }
+      .orb-2 {
+        width: 500px;
+        height: 500px;
+        background: var(--bg-mesh-2);
+        bottom: -50px;
+        left: -100px;
+        animation-delay: -5s;
+        animation-duration: 25s;
+      }
+      .orb-3 {
+        width: 400px;
+        height: 400px;
+        background: rgba(38, 166, 154, 0.1);
+        top: 40%;
+        left: 50%;
+        animation-delay: -10s;
+        animation-duration: 30s;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        100% {
+          transform: translate(50px, 30px) scale(1.1);
+        }
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3 {
+        font-family: "Domine", serif;
+        margin: 0;
+        line-height: 1.1;
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .hand {
+        font-family: "Caveat", cursive;
+        font-size: 1.4rem;
+      }
+
+      .wrap {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 0 5%;
+      }
+
+      /* Accessibility */
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--brand-teal);
+        outline-offset: 4px;
+        border-radius: var(--radius-sm);
+      }
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--brand-teal);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: var(--radius-md);
+        z-index: 1000;
+        transition: top var(--transition-med);
+      }
+      .skip-link:focus {
+        top: 20px;
+      }
+
+      /* Glassmorphism Utilities */
+      .glass {
+        background: var(--glass-bg-medium);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--glass-shadow), var(--glass-inner-shadow);
+        border-radius: var(--radius-lg);
+      }
+      .glass-heavy {
+        background: var(--glass-bg-heavy);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--glass-border-highlight);
+        box-shadow: var(--glass-shadow), var(--glass-inner-shadow);
+      }
+      .glass-hover {
+        transition:
+          transform var(--transition-med),
+          border-color var(--transition-med),
+          box-shadow var(--transition-med);
+      }
+      .glass-hover:hover {
+        transform: translateY(-4px);
+        border-color: var(--glass-border-highlight);
+        box-shadow:
+          0 20px 40px -10px rgba(0, 0, 0, 0.6),
+          var(--glass-inner-shadow);
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 24px;
+        border-radius: 99px;
+        font-weight: 500;
+        font-size: 15px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: all var(--transition-med);
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .btn--primary {
+        background: var(--brand-teal);
+        color: #fff;
+        box-shadow:
+          0 4px 20px var(--brand-teal-glow),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .btn--primary:hover {
+        background: var(--brand-teal-light);
+        transform: translateY(-2px) scale(1.02);
+        box-shadow:
+          0 8px 25px var(--brand-teal-glow),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+
+      .btn--glass {
+        background: var(--glass-bg-light);
+        backdrop-filter: blur(10px);
+        color: var(--text-primary);
+        border: 1px solid var(--glass-border);
+      }
+      .btn--glass:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--glass-border-highlight);
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+      }
+
+      /* Navigation */
+      header.nav {
+        position: fixed;
+        top: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 1000px;
+        z-index: 100;
+        transition:
+          width var(--transition-med),
+          top var(--transition-med);
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 24px;
+        border-radius: 99px;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Domine", serif;
+        font-weight: 600;
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+      }
+      .logo-mark {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        object-fit: contain;
+        box-shadow: 0 4px 12px var(--brand-teal-glow);
+      }
+      .nav-links {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .nav-links a {
+        font-size: 14px;
+        color: var(--text-secondary);
+        transition: color 0.2s ease;
+        position: relative;
+      }
+      .nav-links a:hover {
+        color: var(--text-primary);
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--brand-teal);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s ease;
+        border-radius: 2px;
+      }
+      .nav-links a:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
+      .nav-cta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .nav-cta .btn {
+        padding: 10px 20px;
+        font-size: 13.5px;
+      }
+
+      .nav-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        color: var(--text-primary);
+      }
+      .nav-toggle span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: currentColor;
+        margin: 5px 0;
+        border-radius: 2px;
+        transition: 0.3s ease;
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        position: absolute;
+        top: 110%;
+        left: 0;
+        width: 100%;
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all var(--transition-med);
+      }
+      .mobile-menu.open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .mobile-menu a {
+        display: block;
+        padding: 16px;
+        color: var(--text-primary);
+        font-weight: 500;
+        border-bottom: 1px solid var(--glass-border);
+      }
+      .mobile-menu a:last-of-type {
+        border-bottom: none;
+      }
+
+      @media (max-width: 900px) {
+        .nav-links,
+        .nav-cta {
+          display: none;
+        }
+        .nav-toggle {
+          display: block;
+        }
+        header.nav {
+          top: 12px;
+          width: 95%;
+        }
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 140px 0 80px;
+        position: relative;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.1fr;
+        gap: 64px;
+        align-items: center;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--brand-teal-light);
+        background: rgba(0, 137, 123, 0.15);
+        border: 1px solid rgba(0, 137, 123, 0.3);
+        padding: 6px 14px;
+        border-radius: 99px;
+        margin-bottom: 24px;
+        box-shadow: 0 0 20px rgba(0, 137, 123, 0.1);
+      }
+      .eyebrow .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--brand-teal-light);
+        box-shadow: 0 0 8px var(--brand-teal-light);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.5;
+        }
+      }
+
+      .hero h1 {
+        font-size: clamp(40px, 6vw, 68px);
+        letter-spacing: -0.02em;
+        margin-bottom: 24px;
+        background: linear-gradient(180deg, #ffffff 0%, #a1b0c3 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .hero h1 em {
+        font-style: normal;
+        background: linear-gradient(
+          135deg,
+          var(--brand-teal-light) 0%,
+          #26a69a 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        display: inline-block;
+      }
+      .hero h1 em::after {
+        content: "";
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--brand-teal);
+        opacity: 0.3;
+        border-radius: 2px;
+      }
+
+      .hero p.lede {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        max-width: 480px;
+        margin-bottom: 40px;
+        font-weight: 300;
+      }
+      .hero p.lede .accent {
+        color: #fff;
+        font-weight: 400;
+      }
+
+      .hero-note {
+        margin-top: 28px;
+        font-size: 13px;
+        color: var(--text-tertiary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .hero-note svg {
+        color: var(--brand-teal-light);
+      }
+
+      /* 3D Glass Ledger Presentation */
+      .hero-visual {
+        position: relative;
+        perspective: 1000px;
+        transform-style: preserve-3d;
+      }
+
+      .ledger-stack {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        transform: rotateX(10deg) rotateY(-15deg);
+        transform-style: preserve-3d;
+        transition: transform 0.1s ease;
+      }
+
+      .glass-card-3d {
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius-xl);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-old {
+        background: rgba(231, 243, 242, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transform: translateZ(-60px) translateX(30px) translateY(20px);
+        opacity: 0.5;
+        filter: blur(2px) grayscale(50%);
+      }
+      .card-old::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 40px;
+        width: 1px;
+        background: rgba(255, 0, 0, 0.2);
+      }
+      .card-old .hand {
+        color: rgba(255, 255, 255, 0.4);
+        margin: 10px 0 20px 30px;
+      }
+      .card-old .hand.struck {
+        text-decoration: line-through;
+        text-decoration-color: rgba(255, 0, 0, 0.3);
+      }
+
+      .card-app {
+        background: linear-gradient(
+          145deg,
+          rgba(16, 28, 44, 0.7) 0%,
+          rgba(5, 10, 15, 0.5) 100%
+        );
+        transform: translateZ(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow:
+          -20px 30px 60px rgba(0, 0, 0, 0.6),
+          inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .app-widget {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-md);
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        backdrop-filter: blur(10px);
+        transform: translateZ(30px);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      }
+      .app-widget-main {
+        transform: translateZ(50px) translateX(-20px);
+        border-color: rgba(0, 137, 123, 0.4);
+        background: rgba(0, 137, 123, 0.05);
+      }
+
+      .widget-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .app-label {
+        font-size: 12px;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+      }
+      .app-number {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 24px;
+        font-weight: 500;
+        color: #fff;
+      }
+      .text-alert {
+        color: #f59e0b;
+      }
+      .text-success {
+        color: var(--brand-teal-light);
+      }
+
+      .hero-mascot {
+        position: absolute;
+        left: -40px;
+        bottom: -20px;
+        width: 160px;
+        z-index: 10;
+        transform: translateZ(80px);
+        filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.6));
+        pointer-events: none;
+      }
+
+      @media (max-width: 1024px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+          text-align: center;
+        }
+        .hero p.lede {
+          margin: 0 auto 32px;
+        }
+        .btn-row {
+          justify-content: center;
+        }
+        .hero-note {
+          justify-content: center;
+        }
+        .ledger-stack {
+          height: 400px;
+          transform: none !important;
+        }
+        .card-app {
+          transform: none;
+        }
+        .card-old {
+          display: none;
+        }
+        .app-widget-main {
+          transform: translateX(10px);
+        }
+      }
+
+      /* Stats Strip */
+      .stat-strip {
+        padding: 40px 0;
+        position: relative;
+        z-index: 2;
+      }
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+      }
+      .stat {
+        padding: 32px 24px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        position: relative;
+        overflow: hidden;
+      }
+      .stat::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+      }
+      .stat .num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 32px;
+        font-weight: 500;
+        background: linear-gradient(135deg, var(--brand-teal-light), #fff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .stat .label {
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+
+      @media (max-width: 768px) {
+        .stat-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+        }
+      }
+
+      /* Story Section */
+      .story {
+        padding: 120px 0;
+        position: relative;
+        z-index: 2;
+      }
+      .story-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 80px;
+        align-items: center;
+      }
+      .section-eyebrow {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--brand-teal-light);
+        margin-bottom: 16px;
+        display: block;
+      }
+      .story h2 {
+        font-size: clamp(32px, 4vw, 44px);
+        margin-bottom: 24px;
+      }
+      .story-copy p {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        margin: 0 0 24px;
+        font-weight: 300;
+      }
+      .story-copy p strong {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      @media (max-width: 900px) {
+        .story-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+      }
+
+      /* Features - Redesigned as Glass Accordion/Cards */
+      .features {
+        padding: 80px 0 140px;
+        position: relative;
+        z-index: 2;
+      }
+      .features-head {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto 64px;
+      }
+      .features-head h2 {
+        font-size: clamp(32px, 4vw, 48px);
+        margin-bottom: 16px;
+      }
+      .features-head p {
+        color: var(--text-secondary);
+        font-size: 1.125rem;
+        font-weight: 300;
+      }
+
+      .feature-grid {
+        display: grid;
+        gap: 24px;
+      }
+      .feature-card {
+        padding: 40px;
+        display: grid;
+        grid-template-columns: 80px 1fr 1.5fr;
+        gap: 40px;
+        align-items: start;
+        position: relative;
+        overflow: hidden;
+      }
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.03),
+          transparent
+        );
+        transform: skewX(-20deg);
+        transition: 0.7s;
+      }
+      .feature-card:hover::before {
+        left: 200%;
+      }
+
+      .row-no {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 18px;
+        color: var(--brand-teal-light);
+        font-weight: 500;
+      }
+      .row-no span {
+        display: block;
+        font-size: 11px;
+        color: var(--text-tertiary);
+        letter-spacing: 0.1em;
+        margin-top: 4px;
+      }
+      .row-title h3 {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      .row-title .tagline {
+        font-family: "Caveat", cursive;
+        font-size: 22px;
+        color: var(--brand-teal-light);
+        opacity: 0.8;
+      }
+
+      .row-body p {
+        color: var(--text-secondary);
+        font-size: 16px;
+        margin: 0 0 20px;
+        font-weight: 300;
+      }
+      .row-body ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 12px;
+      }
+      .row-body li {
+        display: flex;
+        gap: 12px;
+        font-size: 15px;
+        color: #fff;
+        align-items: center;
+      }
+      .row-body li svg {
+        color: var(--brand-teal-light);
+        flex-shrink: 0;
+      }
+
+      @media (max-width: 900px) {
+        .feature-card {
+          grid-template-columns: 1fr;
+          gap: 20px;
+          padding: 32px 24px;
+        }
+        .row-no {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .row-no span {
+          margin-top: 0;
+        }
+      }
+
+      /* Security Cards */
+      .security {
+        padding: 120px 0;
+        position: relative;
+        z-index: 2;
+      }
+      .sec-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin-top: 64px;
+      }
+      .sec-card {
+        padding: 40px 32px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .sec-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: rgba(0, 137, 123, 0.1);
+        border: 1px solid rgba(0, 137, 123, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--brand-teal-light);
+        box-shadow: 0 8px 24px rgba(0, 137, 123, 0.15);
+      }
+      .sec-card h3 {
+        font-size: 20px;
+      }
+      .sec-card p {
+        color: var(--text-secondary);
+        margin: 0;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      @media (max-width: 860px) {
+        .sec-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Ecosystem Flow */
+      .ecosystem {
+        padding: 120px 0;
+        position: relative;
+        z-index: 2;
+      }
+      .eco-head {
+        text-align: center;
+        max-width: 620px;
+        margin: 0 auto 80px;
+      }
+
+      .eco-flow {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: center;
+        gap: 24px;
+      }
+      .eco-node {
+        padding: 32px 24px;
+        text-align: center;
+        position: relative;
+      }
+      .eco-node.is-live {
+        border-color: rgba(0, 137, 123, 0.4);
+        box-shadow:
+          0 0 40px rgba(0, 137, 123, 0.1),
+          inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      }
+      .eco-status {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-tertiary);
+        display: inline-block;
+        margin-bottom: 16px;
+        padding: 4px 12px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .is-live .eco-status {
+        color: var(--brand-teal-light);
+        background: rgba(0, 137, 123, 0.1);
+      }
+      .eco-node h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      .eco-node p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin: 0;
+        font-weight: 300;
+      }
+
+      .eco-arrow {
+        color: rgba(255, 255, 255, 0.15);
+        display: flex;
+        justify-content: center;
+      }
+
+      @media (max-width: 900px) {
+        .eco-flow {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .eco-arrow {
+          transform: rotate(90deg);
+          padding: 16px 0;
+        }
+      }
+
+      /* CTA Banner */
+      .cta-banner {
+        margin: 40px 5% 100px;
+        padding: 80px 60px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 60px;
+      }
+      .cta-banner::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at right,
+          rgba(0, 137, 123, 0.2) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+      .cta-copy {
+        max-width: 500px;
+        position: relative;
+        z-index: 2;
+      }
+      .cta-copy h2 {
+        font-size: clamp(32px, 4vw, 48px);
+        margin-bottom: 20px;
+      }
+      .cta-copy p {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        margin-bottom: 40px;
+        font-weight: 300;
+      }
+
+      .cta-mascot {
+        width: 200px;
+        position: relative;
+        z-index: 2;
+        filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+        transform: translateY(10px);
+      }
+
+      @media (max-width: 900px) {
+        .cta-banner {
+          flex-direction: column;
+          text-align: center;
+          padding: 60px 32px;
+        }
+        .cta-copy {
+          margin: 0 auto;
+        }
+        .btn-row {
+          justify-content: center;
+        }
+      }
+
+      /* Footer */
+      footer {
+        background: rgba(5, 10, 15, 0.8);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 80px 0 40px;
+        position: relative;
+        z-index: 2;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 60px;
+        margin-bottom: 60px;
+      }
+      .footer-brand .logo {
+        margin-bottom: 20px;
+      }
+      .footer-brand p {
+        color: var(--text-secondary);
+        font-size: 15px;
+        max-width: 340px;
+        font-weight: 300;
+      }
+
+      footer h4 {
+        font-family: "Inter", sans-serif;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #fff;
+        margin: 0 0 24px;
+        opacity: 0.8;
+      }
+      footer ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      footer a {
+        color: var(--text-secondary);
+        font-size: 15px;
+        transition: color 0.2s;
+        font-weight: 300;
+      }
+      footer a:hover {
+        color: #fff;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 32px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        font-size: 14px;
+        color: var(--text-tertiary);
+      }
+
+      @media (max-width: 768px) {
+        .footer-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+      }
+
+      /* Animation Classes */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity var(--transition-slow),
+          transform var(--transition-slow);
+      }
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .stagger-1 {
+        transition-delay: 0.1s;
+      }
+      .stagger-2 {
+        transition-delay: 0.2s;
+      }
+      .stagger-3 {
+        transition-delay: 0.3s;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Ambient Animated Background -->
+    <div class="ambient-bg" aria-hidden="true">
+      <div class="ambient-orb orb-1"></div>
+      <div class="ambient-orb orb-2"></div>
+      <div class="ambient-orb orb-3"></div>
+    </div>
+
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header class="nav glass" id="navbar">
+      <div class="nav-inner">
+        <a href="#" class="logo">
+          <img
+            src="logo.png"
+            alt="BizBabu logo"
+            class="logo-mark"
+            onerror="
+              this.src =
+                'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 64 64\'%3E%3Crect width=\'64\' height=\'64\' rx=\'12\' fill=\'%2300897B\'/%3E%3Crect x=\'14\' y=\'12\' width=\'36\' height=\'40\' rx=\'3\' fill=\'%23FFFFFF\'/%3E%3Cline x1=\'22\' y1=\'20\' x2=\'44\' y2=\'20\' stroke=\'%230B2545\' stroke-width=\'2\'/%3E%3Cline x1=\'22\' y1=\'28\' x2=\'44\' y2=\'28\' stroke=\'%230B2545\' stroke-width=\'2\'/%3E%3Cline x1=\'22\' y1=\'36\' x2=\'38\' y2=\'36\' stroke=\'%230B2545\' stroke-width=\'2\'/%3E%3C/svg%3E'
+            "
+          />
+          BizBabu
+        </a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="#ecosystem">Ecosystem</a></li>
+            <li><a href="privacy-policy.html">Legal</a></li>
+          </ul>
+        </nav>
+        <div class="nav-cta">
+          <a class="btn btn--glass" href="#" id="web-link-nav">Web App</a>
+          <a
+            class="btn btn--primary"
+            href="https://play.google.com/store/apps/details?id=com.billbabu.mobile"
+            target="_blank"
+            rel="noopener"
+          >
+            Get App
+          </a>
+        </div>
+        <button
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <div class="mobile-menu glass-heavy" id="mobileMenu">
+        <a href="#features">Features</a>
+        <a href="#security">Security</a>
+        <a href="#ecosystem">Ecosystem</a>
+        <div
+          style="
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          "
+        >
+          <a
+            class="btn btn--glass"
+            href="#"
+            style="width: 100%; border-bottom: 1px solid var(--glass-border)"
+            >Use on Web</a
+          >
+          <a
+            class="btn btn--primary"
+            href="https://play.google.com/store/apps/details?id=com.billbabu.mobile"
+            target="_blank"
+            rel="noopener"
+            style="width: 100%; border-bottom: none"
+            >Download App</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <span class="eyebrow reveal"
+              ><span class="dot"></span> Free. Ad-free. Forever.</span
+            >
+            <h1 class="reveal stagger-1">
+              Your Shop's Smart <br />Digital Ledger <em>BizBabu</em>.
+            </h1>
+            <p class="lede reveal stagger-2">
+              One app for billing, inventory and Udhaar — built for the way your
+              shop actually runs, with
+              <span class="accent">zero subscription fees, ever.</span>
+            </p>
+            <div class="btn-row reveal stagger-3">
+              <a
+                class="btn btn--primary"
+                href="https://play.google.com/store/apps/details?id=com.billbabu.mobile"
+                target="_blank"
+                rel="noopener"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="-1.5 0 20 20"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                  <title>google_play [#133]</title>
+                  <desc>Created with Sketch.</desc>
+                  <defs></defs>
+                  <g
+                    id="Page-1"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Dribbble-Light-Preview"
+                      transform="translate(-101.000000, -7599.000000)"
+                      fill="#ffffff"
+                    >
+                      <g
+                        id="icons"
+                        transform="translate(56.000000, 160.000000)"
+                      >
+                        <path
+                          d="M45,7458.928 L45,7459 L53.5,7454 L56.5956547,7452.185 L54.1323291,7449.705 L45,7458.928 Z M57.4515643,7446.334 L54.8020857,7449 L57.4515643,7451.667 L62,7449 L57.4515643,7446.334 Z M56.5670915,7445.816 L53.5,7444 L45,7439 L45,7439.072 L54.1323291,7448.296 L56.5670915,7445.816 Z M53.469467,7448.967 L45,7457.517 L45,7449 L45,7440.423 L53.469467,7448.967 Z"
+                          id="google_play-[#133]"
+                        ></path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+                Google Play
+              </a>
+              <a class="btn btn--glass" href="#">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path
+                    d="M3 12h18M12 3c2.5 2.6 3.8 5.8 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.8-3.8-9S9.5 5.6 12 3z"
+                  />
+                </svg>
+                Use on Web
+              </a>
+            </div>
+            <p class="hero-note reveal stagger-3">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+              No ads. No hidden fees. Your ledger stays yours.
+            </p>
+          </div>
+
+          <div class="hero-visual reveal stagger-2">
+            <div class="ledger-stack" id="hero3D">
+              <div class="glass-card-3d card-old">
+                <p class="hand struck">Sharma Kirana — ₹1,240</p>
+                <p class="hand">Rina Traders — Got ₹800</p>
+                <p class="hand" style="opacity: 0.3; font-size: 1rem">
+                  ...41 more entries
+                </p>
+              </div>
+              <div class="glass-card-3d card-app glass">
+                <div class="app-widget">
+                  <div class="widget-info">
+                    <span class="app-label">Udhaar Trust Score</span>
+                    <span class="app-number">82</span>
+                  </div>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--brand-teal-light)"
+                    stroke-width="2"
+                  >
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                </div>
+                <div class="app-widget app-widget-main glass-heavy">
+                  <div class="widget-info">
+                    <span class="app-label">Maggi 2-min · stock</span>
+                    <span class="app-number text-alert">3 days left</span>
+                  </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#F59E0B"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"
+                    />
+                  </svg>
+                </div>
+                <div class="app-widget">
+                  <div class="widget-info">
+                    <span class="app-label">Collected today</span>
+                    <span class="app-number text-success">₹4,230</span>
+                  </div>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--brand-teal-light)"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M6 3h12 M6 8h12 M6 13l8.5 8 M6 13h3c6.667 0 6.667-10 0-10"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <!-- Decorative Mascot -->
+            <img
+              src="pose1.png"
+              alt="BizBabu mascot"
+              class="hero-mascot"
+              onerror="this.style.display = 'none'"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- STAT STRIP -->
+      <section class="stat-strip wrap reveal">
+        <div class="stat-grid glass glass-hover">
+          <div class="stat">
+            <div class="num">₹0</div>
+            <div class="label">Subscription, ever</div>
+          </div>
+          <div class="stat">
+            <div class="num">3-day</div>
+            <div class="label">Stockout warning</div>
+          </div>
+          <div class="stat">
+            <div class="num">75</div>
+            <div class="label">Starting Trust Score</div>
+          </div>
+          <div class="stat">
+            <div class="num">60-day</div>
+            <div class="label">Dead-stock flag</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STORY -->
+      <section class="story">
+        <div class="wrap story-grid">
+          <div>
+            <span class="section-eyebrow reveal">The problem with paper</span>
+            <h2 class="reveal stagger-1">
+              A Bahi-Khata can't warn you before the stock runs out.
+            </h2>
+          </div>
+          <div class="story-copy">
+            <p class="reveal stagger-1">
+              Every Kirana store runs on trust — the customer who pays next
+              week, the regular who's good for it, the wholesaler who's owed for
+              last month's delivery. For decades, all of that has lived in a
+              cloth-bound register, one page at a time.
+            </p>
+            <p class="reveal stagger-2">
+              <strong
+                >BizBabu keeps the same trust, minus the guesswork.</strong
+              >
+              It's a digital ledger first — built to replace the Bahi-Khata
+              exactly, Udhaar entry for Udhaar entry — and a business brain
+              second, watching your stock and your customers so you don't have
+              to remember it all.
+            </p>
+            <p class="reveal stagger-3">
+              It's free because a shop that thrives on BizBabu is a shop that
+              keeps using it. No ads, no premium tier, no catch.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section class="features" id="features">
+        <div class="wrap">
+          <div class="features-head reveal">
+            <span class="section-eyebrow">The ledger, line by line</span>
+            <h2>
+              Everything your Bahi-Khata did. Plus everything it couldn't.
+            </h2>
+            <p>Four entries. That's the whole app.</p>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feature-card glass glass-hover reveal">
+              <div class="row-no">01<span>S.No.</span></div>
+              <div class="row-title">
+                <h3>The Unified Ledger</h3>
+                <span class="tagline">Every Udhaar, remembered</span>
+              </div>
+              <div class="row-body">
+                <p>
+                  GAVE and GOT balance themselves automatically on every bill.
+                  Deleted an entry by mistake? A 7-day TimeLock reverses it
+                  cleanly — the debt drops and the stock returns to your shelf
+                  count.
+                </p>
+                <ul>
+                  <li>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    Customer &amp; supplier ledgers, tracked separately
+                  </li>
+                  <li>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    Instant Galla profile for walk-in cash sales
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="feature-card glass glass-hover reveal stagger-1">
+              <div class="row-no">02<span>S.No.</span></div>
+              <div class="row-title">
+                <h3>Smart POS &amp; Inventory</h3>
+                <span class="tagline">Scan once, know everything</span>
+              </div>
+              <div class="row-body">
+                <p>
+                  Point the camera at a barcode. If it's already been scanned by
+                  three or more shops on BizBabu, we fill in the product name
+                  for you — no typing required. Every sale deducts stock in real
+                  time.
+                </p>
+                <ul>
+                  <li>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    Crowd-verified global barcode database
+                  </li>
+                  <li>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    GSTIN, store logo &amp; custom colours on every bill
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="feature-card glass glass-hover reveal stagger-2">
+              <div class="row-no">03<span>S.No.</span></div>
+              <div class="row-title">
+                <h3>Business Intelligence</h3>
+                <span class="tagline">The shop that thinks ahead</span>
+              </div>
+              <div class="row-body">
+                <p>
+                  Velocity Brain watches your 7-day sales pace and warns you 3
+                  days before a fast-mover runs dry. Dead-Stock Radar flags
+                  anything untouched for 60 days. Every regular customer earns a
+                  Trust Score, starting at 75.
+                </p>
+                <ul>
+                  <li>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    Overdue collections, surfaced automatically
+                  </li>
+                  <li>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    Trust Score rewards early payers, flags 30-day defaults
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="feature-card glass glass-hover reveal stagger-3">
+              <div class="row-no">04<span>S.No.</span></div>
+              <div class="row-title">
+                <h3>Security, built in</h3>
+                <span class="tagline">Guarded like cash in the Galla</span>
+              </div>
+              <div class="row-body">
+                <p>
+                  Sign in with just your phone number — OTP only, no passwords
+                  to lose or leak. Request deletion and every active session
+                  logs out globally, instantly, with your data wiped for good
+                  after a 20-day safety window.
+                </p>
+                <ul>
+                  <li>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    OTP login, verified on every request
+                  </li>
+                  <li>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    Instant, global session revocation
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECURITY -->
+      <section class="security" id="security">
+        <div class="wrap">
+          <div style="max-width: 600px">
+            <span class="section-eyebrow reveal">Trust, by design</span>
+            <h2 class="reveal stagger-1">
+              Your shop's data, treated like your shop's cash.
+            </h2>
+            <p
+              class="reveal stagger-2"
+              style="
+                color: var(--text-secondary);
+                font-size: 1.125rem;
+                font-weight: 300;
+                margin-top: 16px;
+              "
+            >
+              No passwords to steal. No stray sessions left open. Nothing kept
+              longer than it should be.
+            </p>
+          </div>
+
+          <div class="sec-grid">
+            <div class="sec-card glass glass-hover reveal stagger-1">
+              <div class="sec-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="4" y="10" width="16" height="10" rx="2" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                </svg>
+              </div>
+              <h3>OTP-only sign-in</h3>
+              <p>
+                Just your phone number. Every critical request is verified
+                server-side before anything moves.
+              </p>
+            </div>
+            <div class="sec-card glass glass-hover reveal stagger-2">
+              <div class="sec-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+                  <line x1="12" y1="2" x2="12" y2="12" />
+                </svg>
+              </div>
+              <h3>Instant revocation</h3>
+              <p>
+                Ask to delete your account and every device you're logged into
+                is signed out immediately, everywhere.
+              </p>
+            </div>
+            <div class="sec-card glass glass-hover reveal stagger-3">
+              <div class="sec-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"
+                  />
+                </svg>
+              </div>
+              <h3>Data that actually leaves</h3>
+              <p>
+                A 20-day safety window, then a daily process permanently deletes
+                ledgers, bills and profiles for good.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ECOSYSTEM -->
+      <section class="ecosystem" id="ecosystem">
+        <div class="wrap">
+          <div class="eco-head reveal">
+            <span class="section-eyebrow">What's next</span>
+            <h2>BizBabu is just the first page.</h2>
+            <p>
+              Once your inventory lives in BizBabu, restocking from a trusted
+              wholesaler — and getting it delivered — becomes a tap, not a phone
+              call. Here's where that's headed.
+            </p>
+          </div>
+
+          <div class="eco-flow">
+            <div class="eco-node glass-heavy is-live reveal stagger-1">
+              <span class="eco-status">● Live now</span>
+              <h3>BizBabu</h3>
+              <p>Your billing, inventory &amp; Udhaar ledger</p>
+            </div>
+            <div class="eco-arrow reveal stagger-2">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
+            <div class="eco-node glass reveal stagger-2">
+              <span class="eco-status">Coming soon</span>
+              <h3>Wholesaler Portal</h3>
+              <p>Local stockists list catalogues straight into your app</p>
+            </div>
+            <div class="eco-arrow reveal stagger-3">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
+            <div class="eco-node glass reveal stagger-3">
+              <span class="eco-status">Coming soon</span>
+              <h3>Delivery Network</h3>
+              <p>Independent drivers pick up and deliver your restock</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA BANNER -->
+      <section class="cta-banner glass-heavy reveal">
+        <div class="cta-copy">
+          <h2>Close the khata.<br />Open the app.</h2>
+          <p>
+            Free forever, for every Kirana store. Set up your first ledger in
+            under five minutes.
+          </p>
+          <div class="btn-row">
+            <a
+              class="btn btn--primary"
+              href="https://play.google.com/store/apps/details?id=com.billbabu.mobile"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg
+                  width="20"
+                  height="20"
+                  viewBox="-1.5 0 20 20"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                  <title>google_play [#133]</title>
+                  <desc>Created with Sketch.</desc>
+                  <defs></defs>
+                  <g
+                    id="Page-1"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Dribbble-Light-Preview"
+                      transform="translate(-101.000000, -7599.000000)"
+                      fill="#ffffff"
+                    >
+                      <g
+                        id="icons"
+                        transform="translate(56.000000, 160.000000)"
+                      >
+                        <path
+                          d="M45,7458.928 L45,7459 L53.5,7454 L56.5956547,7452.185 L54.1323291,7449.705 L45,7458.928 Z M57.4515643,7446.334 L54.8020857,7449 L57.4515643,7451.667 L62,7449 L57.4515643,7446.334 Z M56.5670915,7445.816 L53.5,7444 L45,7439 L45,7439.072 L54.1323291,7448.296 L56.5670915,7445.816 Z M53.469467,7448.967 L45,7457.517 L45,7449 L45,7440.423 L53.469467,7448.967 Z"
+                          id="google_play-[#133]"
+                        ></path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              Get on Google Play
+            </a>
+            <a class="btn btn--glass" href="#">Use on Web</a>
+          </div>
+        </div>
+        <img
+          src="pose2.png"
+          alt=""
+          class="cta-mascot"
+          onerror="this.style.display = 'none'"
+        />
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="#" class="logo">
+              <img
+                src="logo.png"
+                alt="BizBabu logo"
+                class="logo-mark"
+                onerror="this.style.display = 'none'"
+              />
+              BizBabu
+            </a>
+            <p>
+              A free, ad-free ledger, billing and inventory companion for
+              India's Kirana stores. The first node of Project SupplySprout.
+            </p>
+          </div>
+          <div>
+            <h4>Product</h4>
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#security">Security &amp; privacy</a></li>
+              <li><a href="#ecosystem">What's next</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Get the app</h4>
+            <ul>
+              <li>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.billbabu.mobile"
+                  target="_blank"
+                  rel="noopener"
+                  >Google Play</a
+                >
+              </li>
+              <li><a href="#">Use on Web</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 BizBabu. Built for India's shopkeepers.</span>
+          <span>Part of the SupplySprout ecosystem</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle logic
+      const navToggle = document.getElementById("navToggle");
+      const mobileMenu = document.getElementById("mobileMenu");
+      navToggle.addEventListener("click", () => {
+        const open = mobileMenu.classList.toggle("open");
+        navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      mobileMenu.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => {
+          mobileMenu.classList.remove("open");
+          navToggle.setAttribute("aria-expanded", "false");
+        }),
+      );
+
+      // Smooth IntersectionObserver for reveal animations
+      const revealEls = document.querySelectorAll(".reveal");
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if ("IntersectionObserver" in window && !prefersReducedMotion) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                // Optional: stop observing once revealed
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+        );
+        revealEls.forEach((el) => io.observe(el));
+      } else {
+        // Fallback for older browsers or reduced motion
+        revealEls.forEach((el) => el.classList.add("is-visible"));
+      }
+
+      // Navbar scroll effect
+      const navbar = document.getElementById("navbar");
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (window.scrollY > 50) {
+            navbar.style.background = "var(--glass-bg-heavy)";
+            navbar.style.boxShadow = "var(--glass-shadow)";
+          } else {
+            navbar.style.background = "var(--glass-bg-medium)";
+            navbar.style.boxShadow = "none";
+          }
+        },
+        { passive: true },
+      );
+
+      // 3D Parallax Tilt for Hero Cards (Physical motion)
+      if (!prefersReducedMotion && window.innerWidth > 1024) {
+        const heroSection = document.querySelector(".hero");
+        const hero3D = document.getElementById("hero3D");
+
+        heroSection.addEventListener("mousemove", (e) => {
+          requestAnimationFrame(() => {
+            const rect = heroSection.getBoundingClientRect();
+            // Calculate mouse position relative to center of section (-1 to 1)
+            const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+
+            // Apply smooth subtle rotation
+            hero3D.style.transform = `rotateX(${10 - y * 8}deg) rotateY(${-15 + x * 8}deg)`;
+          });
+        });
+
+        heroSection.addEventListener("mouseleave", () => {
+          hero3D.style.transform = "rotateX(10deg) rotateY(-15deg)";
+        });
+      }
+    </script>
+  </body>
+</html>
