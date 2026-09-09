@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — BizBabu</title>
+<meta name="description" content="Privacy Policy for BizBabu. Learn how we collect, use, and safeguard your information.">
+
+<!-- Typography -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* Brand Colors */
+    --brand-teal: #00897B;
+    --brand-teal-glow: rgba(0, 137, 123, 0.4);
+    --brand-teal-light: #4DB6AC;
+    
+    /* Backgrounds */
+    --bg-base: #050A0F;
+    --bg-mesh-1: rgba(0, 137, 123, 0.15);
+    --bg-mesh-2: rgba(11, 37, 69, 0.3);
+    
+    /* Glass Tokens */
+    --glass-bg-heavy: rgba(11, 20, 31, 0.6);
+    --glass-bg-medium: rgba(16, 28, 44, 0.4);
+    --glass-bg-light: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-highlight: rgba(255, 255, 255, 0.15);
+    --glass-blur: blur(24px);
+    --glass-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.5);
+    --glass-inner-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    
+    /* Text */
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-tertiary: #64748B;
+    
+    /* Layout */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --max-w: 1200px;
+    
+    /* Motion */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-slow: 0.8s var(--ease-out-expo);
+    --transition-med: 0.4s var(--ease-out-expo);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Reading Progress Bar */
+  .reading-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand-teal), var(--brand-teal-light));
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s ease;
+  }
+
+  /* Animated Ambient Background */
+  .ambient-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background: var(--bg-base);
+  }
+  .ambient-orb {
+    position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.4;
+    animation: float 25s infinite ease-in-out alternate;
+    transform: translateZ(0);
+  }
+  .orb-1 { width: 600px; height: 600px; background: var(--bg-mesh-1); top: -100px; right: -100px; }
+  .orb-2 { width: 500px; height: 500px; background: var(--bg-mesh-2); bottom: -50px; left: -100px; animation-delay: -5s; }
+
+  @keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, 20px) scale(1.05); }
+  }
+
+  /* Typography */
+  h1, h2, h3 {
+    font-family: 'Domine', serif;
+    margin: 0; line-height: 1.2;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 5%; }
+
+  /* Glassmorphism Utilities */
+  .glass {
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow), var(--glass-inner-shadow);
+    border-radius: var(--radius-lg);
+  }
+  .glass-heavy {
+    background: var(--glass-bg-heavy);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-highlight);
+    box-shadow: var(--glass-shadow), var(--glass-inner-shadow);
+  }
+
+  /* Navigation */
+  header.nav {
+    position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 1000px;
+    z-index: 100;
+    transition: width var(--transition-med), top var(--transition-med), background var(--transition-med);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px; border-radius: 99px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Domine', serif; font-weight: 600; font-size: 1.25rem;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; }
+  .nav-links a {
+    font-size: 14px; color: var(--text-secondary); transition: color 0.2s ease;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+  
+  .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; color: var(--text-primary); }
+  .nav-toggle span { display: block; width: 24px; height: 2px; background: currentColor; margin: 5px 0; border-radius: 2px; }
+
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: block; }
+    header.nav { top: 12px; width: 95%; }
+  }
+
+  /* Legal Hero Section */
+  .legal-hero {
+    padding: 180px 0 60px;
+    text-align: center;
+    position: relative;
+  }
+  .legal-hero h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    letter-spacing: -0.02em; margin-bottom: 24px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #A1B0C3 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .legal-eyebrow {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--brand-teal-light); margin-bottom: 20px;
+  }
+  .legal-desc {
+    color: var(--text-secondary); font-size: 1.125rem; font-weight: 300;
+    max-width: 600px; margin: 0 auto; line-height: 1.7;
+  }
+
+  /* Legal Content Layout */
+  .legal-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 80px;
+    padding-bottom: 120px;
+    align-items: start;
+  }
+
+  /* Sticky TOC */
+  .toc-sidebar {
+    position: sticky;
+    top: 120px;
+    padding: 32px 24px;
+    border-radius: var(--radius-lg);
+    background: rgba(16, 28, 44, 0.2);
+    border: 1px solid var(--glass-border);
+  }
+  .toc-sidebar h4 {
+    margin: 0 0 16px; font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-tertiary); font-family: 'JetBrains Mono', monospace;
+  }
+  .toc-list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .toc-list a {
+    display: block; font-size: 14px; color: var(--text-secondary);
+    transition: all 0.2s ease; line-height: 1.4;
+    border-left: 2px solid transparent; padding-left: 12px;
+  }
+  .toc-list a:hover { color: var(--text-primary); border-left-color: var(--glass-border-highlight); }
+  .toc-list a.active {
+    color: var(--brand-teal-light); border-left-color: var(--brand-teal); font-weight: 500;
+  }
+
+  /* Article Content */
+  .legal-article {
+    max-width: 800px;
+    font-size: 1.0625rem; /* 17px */
+    line-height: 1.8;
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+  
+  .legal-article section {
+    margin-bottom: 64px;
+    scroll-margin-top: 140px; /* Accounts for sticky header */
+  }
+  
+  .legal-article h2 {
+    font-size: 1.75rem; margin-bottom: 24px; color: var(--text-primary);
+    padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  
+  .legal-article p { margin: 0 0 20px; }
+  
+  .legal-article strong { color: var(--text-primary); font-weight: 500; }
+  
+  .legal-article ul {
+    margin: 0 0 24px; padding-left: 24px;
+    list-style: none;
+  }
+  
+  .legal-article ul li {
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 8px;
+  }
+  
+  .legal-article ul li::before {
+    content: ''; position: absolute; left: -20px; top: 10px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--brand-teal-light); opacity: 0.6;
+  }
+  
+  .legal-article a {
+    color: var(--brand-teal-light); text-decoration: underline;
+    text-decoration-color: rgba(77, 182, 172, 0.3); text-underline-offset: 4px;
+    transition: all 0.2s;
+  }
+  .legal-article a:hover { text-decoration-color: var(--brand-teal-light); }
+
+  @media (max-width: 900px) {
+    .legal-layout { grid-template-columns: 1fr; gap: 40px; }
+    .toc-sidebar { display: none; /* Hide sticky TOC on mobile */ }
+  }
+
+  /* Footer */
+  footer {
+    background: rgba(5, 10, 15, 0.8);
+    backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 80px 0 40px; position: relative; z-index: 2;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+  .footer-brand .logo { margin-bottom: 20px; }
+  .footer-brand p { color: var(--text-secondary); font-size: 15px; max-width: 340px; font-weight: 300; }
+  footer h4 { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; margin: 0 0 24px; opacity: 0.8; }
+  footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+  footer a { color: var(--text-secondary); font-size: 15px; transition: color 0.2s; font-weight: 300; }
+  footer a:hover { color: #fff; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.05); padding-top: 32px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    font-size: 14px; color: var(--text-tertiary);
+  }
+  @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* Animation Classes */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity var(--transition-slow), transform var(--transition-slow); }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  .stagger-1 { transition-delay: 0.1s; }
+  .stagger-2 { transition-delay: 0.2s; }
+</style>
+</head>
+<body>
+
+<div class="reading-progress" id="progressBar"></div>
+
+<div class="ambient-bg" aria-hidden="true">
+  <div class="ambient-orb orb-1"></div>
+  <div class="ambient-orb orb-2"></div>
+</div>
+
+<header class="nav glass" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">BizBabu</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="privacy-policy.html" class="active">Privacy Policy</a></li>
+        <li><a href="terms-of-service.html">Terms of Service</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section class="legal-hero wrap reveal">
+    <span class="legal-eyebrow">Effective Date: April 21, 2026</span>
+    <h1>Privacy Policy</h1>
+    <p class="legal-desc">We value your trust and are committed to protecting your personal and business data. This document explains how we collect, use, and safeguard your information.</p>
+  </section>
+
+  <!-- Legal Content Layout -->
+  <div class="wrap legal-layout">
+    
+    <!-- Desktop Table of Contents (Auto-generated by JS) -->
+    <aside class="toc-sidebar reveal stagger-1">
+      <h4>Contents</h4>
+      <ul class="toc-list" id="tocList">
+        <!-- JS populates this -->
+      </ul>
+    </aside>
+
+    <!-- Main Document -->
+    <article class="legal-article reveal stagger-2" id="legalContent">
+      
+      <section id="section-1">
+        <h2>1. Introduction</h2>
+        <p>Welcome to BizBabu (the "App"), developed by SupplySprout. We value your trust and are committed to protecting your personal and business data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our Point of Sale (POS), inventory management, and ledger ecosystem.</p>
+      </section>
+
+      <section id="section-2">
+        <h2>2. Information We Collect</h2>
+        <p>To provide you with a seamless billing experience, we collect the following data:</p>
+        <ul>
+          <li><strong>Account Information:</strong> When you sign up via Firebase Authentication, we collect your phone number and full name.</li>
+          <li><strong>Business Data:</strong> We store information related to your shop, including Shop Name, Address, GSTIN, and UI preferences (such as your chosen invoice template and brand color).</li>
+          <li><strong>Ledger & Transaction Data:</strong> The App securely stores the data you input regarding your Customers, Suppliers, Products, Bills, and Transactions.</li>
+          <li><strong>Anonymized Product Data:</strong> When you scan a barcode and manually enter a product name, we anonymously save the barcode number and product name to our global dictionary to improve the smart-scanning experience for all users. We never link this global data to your specific shop.</li>
+          <li><strong>Device Permissions:</strong> We request camera access exclusively for scanning product barcodes. We request storage permissions to allow you to save generated PDF invoices, master ledgers, and JPG receipts directly to your device.</li>
+        </ul>
+      </section>
+
+      <section id="section-3">
+        <h2>3. How We Use Your Information</h2>
+        <p>We use your data exclusively to make the App work for you. Specifically, we use it to:</p>
+        <ul>
+          <li>Provide and maintain the core POS, ledger, and billing services.</li>
+          <li>Generate "Smart Restock Alerts" by analyzing your recent sales velocity.</li>
+          <li>Generate professional, shareable PDF statements and invoices.</li>
+          <li>Sync your data across devices securely via our cloud backend.</li>
+          <li>Facilitate automated account restoration and deletion processes.</li>
+        </ul>
+      </section>
+
+      <section id="section-4">
+        <h2>4. Data Sharing & Third Parties</h2>
+        <p>We do not sell your personal or business data. We only share necessary encrypted information with trusted service providers required to operate the App:</p>
+        <ul>
+          <li><strong>Google Firebase:</strong> For secure, OTP-based phone authentication.</li>
+          <li><strong>Cloud Database Providers:</strong> For the secure, encrypted hosting of your PostgreSQL database records.</li>
+        </ul>
+      </section>
+
+      <section id="section-5">
+        <h2>5. Data Retention & The "Danger Zone"</h2>
+        <ul>
+          <li><strong>Active Data:</strong> We retain your data as long as your account remains active.</li>
+          <li><strong>Account Deletion:</strong> If you choose to delete your account via the "Danger Zone" in App Settings, your account is immediately deactivated and marked as "Pending Deletion."</li>
+          <li><strong>The 20-Day Grace Period:</strong> Your data remains securely on our servers for a 20-day grace period in case you change your mind and wish to restore your business data upon logging back in. After 20 days, our automated system permanently and irreversibly wipes all your records from our servers.</li>
+        </ul>
+      </section>
+
+      <section id="section-6">
+        <h2>6. Security</h2>
+        <p>We implement industry-standard security measures. Every request your app makes to our servers is secured using Firebase ID Token verification, ensuring that absolutely no one else can access, modify, or read your business data.</p>
+      </section>
+
+      <section id="section-7">
+        <h2>7. Your Rights</h2>
+        <p>You maintain full control over your data. You have the right to:</p>
+        <ul>
+          <li><strong>Access & Export:</strong> Generate and download your complete Master Ledger or individual customer statements as PDFs at any time.</li>
+          <li><strong>Correction:</strong> Edit your profile, customer details, supplier details, or product inventory whenever necessary.</li>
+          <li><strong>Erasure:</strong> Delete individual manual transactions, remove specific bills, or schedule your entire account for permanent deletion.</li>
+        </ul>
+      </section>
+
+      <section id="section-8">
+        <h2>8. Contact Us</h2>
+        <p>If you have questions about this Privacy Policy or how your data is handled, please contact us at:</p>
+        <p>
+          <strong>Developer:</strong> SupplySprout<br>
+          <strong>Email:</strong> <a href="mailto:supplysproutcompany@gmail.com">supplysproutcompany@gmail.com</a>
+        </p>
+      </section>
+
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">BizBabu</a>
+        <p>A free, ad-free ledger, billing and inventory companion for India's Kirana stores. The first node of Project SupplySprout.</p>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="index.html#security">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 BizBabu. Built for India's shopkeepers.</span>
+      <span>Part of the SupplySprout ecosystem</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reading Progress Bar
+  window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById("progressBar").style.width = scrolled + "%";
+  }, { passive: true });
+
+  // Navbar glass effect on scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      navbar.classList.add('glass-heavy');
+      navbar.classList.remove('glass');
+    } else {
+      navbar.classList.add('glass');
+      navbar.classList.remove('glass-heavy');
+    }
+  }, { passive: true });
+
+  // Auto-generate TOC and Scroll Spy
+  document.addEventListener('DOMContentLoaded', () => {
+    const content = document.getElementById('legalContent');
+    const sections = content.querySelectorAll('section');
+    const tocList = document.getElementById('tocList');
+    
+    // Generate TOC
+    sections.forEach(section => {
+      const h2 = section.querySelector('h2');
+      if(h2) {
+        const title = h2.textContent.replace(/^[0-9]+\.\s/, ''); // Removes the number for cleaner TOC
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `#${section.id}`;
+        a.textContent = title;
+        li.appendChild(a);
+        tocList.appendChild(li);
+      }
+    });
+
+    // Scroll Spy for TOC
+    const tocLinks = tocList.querySelectorAll('a');
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${entry.target.id}`) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
+  });
+
+  // Reveal Animations
+  const revealEls = document.querySelectorAll('.reveal');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if ('IntersectionObserver' in window && !prefersReducedMotion) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+</script>
+
+</body>
+</html>
